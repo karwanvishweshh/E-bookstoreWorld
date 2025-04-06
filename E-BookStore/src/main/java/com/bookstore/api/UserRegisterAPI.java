@@ -15,14 +15,26 @@ import com.bookstore.model.UserRegisterDTO;
 import com.bookstore.service.UserRegisterService;
 import com.bookstore.utilities.Constants;
 
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 @RestController
+@Api(value="User Registration and Login Operations",tags= {"User operations"})
 public class UserRegisterAPI {
 	
 	@Autowired
 	private UserRegisterService userRegisterService;
 	
-	
-	
+	@ApiOperation(value="User Registration",notes="Register a new user",response=ResponseMessage.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=201,message="User Registered Successfully",response=ResponseMessage.class),
+			@ApiResponse(code=400,message="User Registered Failed",response=ResponseMessage.class),
+			@ApiResponse(code=500,message="Internal Server Error",response=ResponseMessage.class),
+			
+	})
 	@PostMapping("/userregister")
 	public ResponseEntity<ResponseMessage> createUserRegistration(@RequestBody UserRegisterDTO userRegisterDTO)
 	{
@@ -52,6 +64,13 @@ public class UserRegisterAPI {
 	}
 	}
 	
+	@ApiOperation(value="User Login",notes="User Login To portal",response=ResponseMessage.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=201,message="User Logged Successfully",response=ResponseMessage.class),
+			@ApiResponse(code=400,message="User Login Failed",response=ResponseMessage.class),
+			@ApiResponse(code=500,message="Internal Server Error",response=ResponseMessage.class),
+			
+	})
 	@PostMapping("/login")
 	public ResponseEntity<ResponseMessage> createLogin(@RequestBody LoginModel loginModel) 
 	{
