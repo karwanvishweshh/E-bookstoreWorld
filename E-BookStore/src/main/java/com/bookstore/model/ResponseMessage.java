@@ -30,6 +30,11 @@ public class ResponseMessage {
 		this.message = message;
 		this.data = data;
 	}
+	public ResponseMessage(Integer statuscode, String status) {
+		super();
+		this.statuscode = statuscode;
+		this.status = status;
+	}
 	
 	
 	
