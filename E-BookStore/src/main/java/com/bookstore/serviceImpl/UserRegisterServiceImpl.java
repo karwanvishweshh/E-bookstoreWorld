@@ -4,6 +4,7 @@ import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bookstore.entities.UserRegister;
 import com.bookstore.model.LoginModel;
@@ -18,7 +19,7 @@ public class UserRegisterServiceImpl  implements UserRegisterService{
 	private UserRegisterRepository userRegisterRepo;
 
 	@Override
-	public UserRegister createUserRegService(UserRegisterDTO userRegisterDTO) {
+	public UserRegister createUserRegService(UserRegisterDTO userRegisterDTO,MultipartFile file) {
 		UserRegister  user =null;
 		try {
 		user = new UserRegister();
@@ -27,6 +28,9 @@ public class UserRegisterServiceImpl  implements UserRegisterService{
 		user.setEmail(userRegisterDTO.getEmail());
 		user.setPassword(Base64.getEncoder().encodeToString(userRegisterDTO.getPassword().getBytes()));
 		user.setContactId(userRegisterDTO.getContactId());
+		if(file !=null) {
+			user.setImage(file.getBytes());
+		}
 		userRegisterRepo.save(user);
 		}catch (Exception e) {
 			e.printStackTrace();

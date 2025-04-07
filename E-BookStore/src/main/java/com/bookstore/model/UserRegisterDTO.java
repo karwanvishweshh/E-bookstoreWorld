@@ -1,5 +1,7 @@
 package com.bookstore.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class UserRegisterDTO {
 	
 	private String firstName; 
@@ -7,6 +9,10 @@ public class UserRegisterDTO {
 	private String email;
 	private String password;
 	private long contactId;
+	
+	private MultipartFile file;
+	
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -37,6 +43,18 @@ public class UserRegisterDTO {
 	public void setContactId(long contactId) {
 		this.contactId = contactId;
 	}
+	public MultipartFile getFile() {
+	    return file;
+	}
+
+	
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	
+	
+	
+	
 	
 	
 

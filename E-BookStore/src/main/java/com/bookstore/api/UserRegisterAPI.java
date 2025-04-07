@@ -3,10 +3,14 @@ package com.bookstore.api;
 import java.net.HttpURLConnection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bookstore.entities.UserRegister;
 import com.bookstore.model.LoginModel;
@@ -15,10 +19,8 @@ import com.bookstore.model.UserRegisterDTO;
 import com.bookstore.service.UserRegisterService;
 import com.bookstore.utilities.Constants;
 
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 @RestController
@@ -35,17 +37,17 @@ public class UserRegisterAPI {
 			@ApiResponse(code=500,message="Internal Server Error",response=ResponseMessage.class),
 			
 	})
-	@PostMapping("/userregister")
-	public ResponseEntity<ResponseMessage> createUserRegistration(@RequestBody UserRegisterDTO userRegisterDTO)
+	@PostMapping(value="/userregister")
+	public ResponseEntity<ResponseMessage> createUserRegistration(@RequestBody @ModelAttribute UserRegisterDTO userRegisterDTO,@RequestParam MultipartFile file)
 	{
 		
 	 try 
 	 {
-			 if(userRegisterDTO ==null || userRegisterDTO.getEmail()==null || userRegisterDTO.getEmail().isBlank() || userRegisterDTO.getPassword() ==null || userRegisterDTO.getPassword().isBlank())
+			 if(userRegisterDTO ==null || userRegisterDTO.getEmail()==null || userRegisterDTO.getEmail().isBlank() || userRegisterDTO.getPassword() ==null || userRegisterDTO.getPassword().isBlank()||file==null)
              {
  		return ResponseEntity.ok(new ResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILED, "email and password cannot be empty!"));
  		}
-      UserRegister userRegService = userRegisterService.createUserRegService(userRegisterDTO);
+      UserRegister userRegService = userRegisterService.createUserRegService(userRegisterDTO,file);
 		if(userRegService!=null)
 		{
 
