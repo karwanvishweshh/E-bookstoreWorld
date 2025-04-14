@@ -16,4 +16,11 @@ public interface UploadService {
 
 	ResponseEntity<ResponseMessage> uploads(MultipartFile[] files);
 
+	ResponseEntity<ResponseMessage> deleteById(long id);
+
+	ResponseEntity<ResponseMessage> getFileById(long id);
+	
+	ResponseEntity<ResponseMessage> downloadToLocalDisk(long id);
+
+
 }
