@@ -51,23 +51,32 @@ public class UserRegisterAPI {
 		 logger.info(" User Register API method call Started");
 			 if(userRegisterDTO ==null || userRegisterDTO.getEmail()==null || userRegisterDTO.getEmail().isBlank() || userRegisterDTO.getPassword() ==null || userRegisterDTO.getPassword().isBlank()||file==null)
              {
+				 logger.debug("Received userRegisterDTO:{}",userRegisterDTO);
+				 logger.warn("missing email and password registration request");
+				 logger.warn("User Registartion email or password missing: Bad reg data ");
  		return ResponseEntity.ok(new ResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILED, "email and password cannot be empty!"));
  		}
+			 
+			 
+			 
       UserRegister userRegService = userRegisterService.createUserRegService(userRegisterDTO,file);
 		if(userRegService!=null)
 		{
+			logger.info("Message return eco-system=\"BOOKSTORE ONLINE REGISTRATION CREATION SUCCESS\".");
 
 		return ResponseEntity.ok(new ResponseMessage(HttpURLConnection.HTTP_CREATED, Constants.SUCCESS, "User Register Saved sucessfully", userRegService));
 
 	  }
 	  else 
 	  {
-		  
+		  logger.info("Message return eco-system=  \"BOOKSTORE_ONLINE_REGISTRATION_CREATION_FAILED\".");
+		  logger.info("Registration Controller Layer calling completed");
+		  logger.warn("User Registration service return null:registration failed");
 		return ResponseEntity.ok(new ResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILED, "User Register not Saved sucessfully", userRegService));
 	  }
 	 }catch (Exception e) 
 	 {
-		logger.error("User register Failed");
+		logger.error("New User creation process Failed in BookStore-DB . Exception:"+e.getMessage());
 		return ResponseEntity.ok(new ResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILED, "User Registration failed"));
 	}
 	}
@@ -124,11 +133,15 @@ public class UserRegisterAPI {
       UserRegister userRegService= userRegisterService.createLoginUser(loginData,files);
 	
       if(userRegService!=null) {
+    	  
   		return ResponseEntity.ok(new ResponseMessage(HttpURLConnection.HTTP_CREATED, Constants.SUCCESS, "User Login sucessfully, Welcome to E-commerce online Book store..!!", userRegService));
   	  }else {  
+  		logger.info("Message return eco-system=  \"BOOKSTORE_ONLINE_LOGIN_FAILED\".");
+  		logger.info(" User Login API method call Completed");
+  		  logger.warn("login Service Return null:Login failed");
   		return ResponseEntity.ok(new ResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILED, "Invalid email and password"));
   	}}catch (Exception e) {
-		
+		logger.error("Login Process failed in BookStore-DB Exception:\" + "+e.getMessage());
 		return ResponseEntity.ok(new ResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILED, "Bad Credintials.."));
 
 	}
