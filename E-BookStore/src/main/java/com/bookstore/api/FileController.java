@@ -1,7 +1,5 @@
 package com.bookstore.api;
 
-package com.bookstore.api;
-
 import java.net.HttpURLConnection;
 
 import org.slf4j.Logger;
